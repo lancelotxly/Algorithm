@@ -3,6 +3,8 @@ Increasing order sort. Input: list
                        Output: list
 Including: Insertion Sort (O(n^2)), Selection Sort(O(n^2))
            Merge Sort (O(nlgn))
+           Merge & Insert combine(O(nk+nlg(n/k)))
+           LinearSearch (O(n)), BinarySearch(O(lgn))
 '''
 # -*- coding: utf-8 -*-
 # __author__ = 'xzq'
@@ -98,20 +100,36 @@ def MergeSort(A, p, r):
     return A
 
 '''
+Merge and Insertion combine
+'''
+def Insert_K(A, p, r):
+    for i in range(p+1,r+1):
+        key = A[i]
+        j = i -1
+        while j >=0 and A[j] > key:
+            A[j+1] = A[j]
+            j = j - 1
+        A[j+1] = key
+
+def Merge_Insert_Sort(A, p, r, k):
+    if (r-p+1) > k:
+        q = math.floor((p+r)/2)
+        Merge_Insert_Sort(A, p, q, k)
+        Merge_Insert_Sort(A, q+1, r, k)
+        Insert_K(A, p, r)
+    return A
+
+'''
 Search
 '''
-# linear search
-def Search(A,v):
-     i = 0
-     while i < len(A):
-         if A[i] == v:
-             break
-         i = i + 1
-     if i == len(A):
-         i = 'Nil'
-     return i
+# linear Search
+def LinearSearch(A, v, p, r):
+    for i in range(p, r+1):
+        if A[i] == v:
+            return i
+    return 'Nil'
 
-# binary search
+# binary Search
 def BinarySearch(A, v, p, r):
     while p <= r:
         q = math.floor((p+r)/2)
@@ -120,23 +138,22 @@ def BinarySearch(A, v, p, r):
         elif A[q] < v:
             p = q + 1
         else:
-            p = q - 1
+            r = q - 1
     return 'Nil'
 
-# binary recursive search
-def BinaryRecursiveSearch(A, v, p, r):
+# binary Search recursive
+def BinarySearchRecursive(A, v, p, r):
     if p > r:
         return 'Nil'
     q = math.floor((p+r)/2)
     if A[q] == v:
         return q
     elif A[q] < v:
-        return BinaryRecursiveSearch(A, v, q+1, r)
+        return BinarySearchRecursive(A, v, q+1, r)
     else:
-        return BinaryRecursiveSearch(A, v, p, q-1)
+        return BinarySearchRecursive(A, v, p, q-1)
 
 # test
 A = [5,2,4,7,1,3,2,6]
-A_new = MergeSort(A, 0, 7)
+A_new = Merge_Insert_Sort(A, 0, 7, 3)
 print(A_new)
-print(BinaryRecursiveSearch(A_new, 5, 0, 7))
