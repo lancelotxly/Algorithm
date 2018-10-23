@@ -39,21 +39,21 @@ class Matrix():
 #     for j in range(0,3):
 #         m[i][j] = 1
 # print(m.__dict__)
-
+'''
+Based on the linaer algebra:  c_ij = \sum\limits_{k=1}^{n}a_ik* b_kj
+                              time-complexity: O(n^3)
+'''
 def Square_Matrix_Multiply(A,B):
     n = A.rows
-    list = [0]*(n*n)  # generate zero vector
+    list = [0]*(n*n)    # generate a zero vector
     C = Matrix(n,list)
-    for i in range(0, n):
-        for j in range(0, n):
-            C[i][j] = 0
+    for i in range(0,n):
+        for j in range(0,n):
             for k in range(0,n):
-                C[i][j] = C[i][j]+A[i][k]*B[k][j]
-
+                C[i][j] = C[i][j] + A[i][k]*B[k][j]
     return C
 
 
 A = Matrix(3,list(range(1,10)))
-B = Matrix(3, list(range(1,10)))
-C = Square_Matrix_Multiply(A, B)
-print(A(),B(),C())
+A()
+print(A[1][0:2])
