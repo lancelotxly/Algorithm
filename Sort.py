@@ -125,6 +125,26 @@ def BubbleSort(A):
                A[j], A[j-1] = A[j-1], A[j]
 
 '''
+HeapSort: Base on Max-Heap
+'''
+from Heap import Heap
+def HeapSort(A):
+    h = Heap(*A)
+    h.Build_Max_Heap()
+    i = h.heapsize - 1
+    while i >= 1:
+        h[0], h[i] = h[i], h[0]
+        h.heapsize = h.heapsize - 1
+        h.Max_Heapify(0)
+        i = i - 1
+    return h
+
+# test
+A = [4,1,3,2,16,9,10,14,8,7]
+h = HeapSort(A)
+h()
+
+'''
 Search
 '''
 # linear Search
@@ -158,7 +178,3 @@ def BinarySearchRecursive(A,v,p,r):
     else:
         return BinarySearchRecursive(A,v,p,q-1)
 
-# test
-A = [5,2,4,7,1,3,2,6]
-Merge_Insert_Sort(A,0,len(A)-1,2)
-print(A)
