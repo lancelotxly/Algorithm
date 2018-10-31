@@ -131,19 +131,14 @@ HeapSort: Base on Max-Heap
 from Heap import Heap
 def HeapSort(A):
     h = Heap(*A)
-    h.Build_Min_Heap()
+    h.Build_Max_Heap()
     i = h.heapsize - 1
     while i >= 1:
         h[0], h[i] = h[i], h[0]
         h.heapsize = h.heapsize - 1
-        h.Min_Heapify(0)
+        h.Max_Heapify(0)
         i = i - 1
     return h
-
-# test
-A = [4,1,3,2,16,9,10,14,8,7]
-h = HeapSort(A)
-h()
 
 '''
 Search

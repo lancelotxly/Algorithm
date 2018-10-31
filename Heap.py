@@ -21,12 +21,14 @@ Heap: For a Heap of n nodes, n = 2^m-1+k, where m-1 layer complete tree, and the
                             thus, the height of the Heap equal floor(lgn)
       the leaf nodes are floor(n/2)+1, floor(n/2)+2,...n
       the root nodes are 1,..floor(n/2)
+      
+      functions: Max_Heapify() and Min_Heapify(), time-complexity: O(lgn)
+                 Build_Max_Heap() and Build_Min_Heap(), time-complexity: O(n)
 '''
-
 from math import floor
 class Heap():
     def __init__(self,*args):
-        self.length = self.heapsize = len(args)
+        self.n = self.heapsize = len(args)
         for i in range(0,self.heapsize):
             self[i] = args[i]
 
@@ -37,14 +39,14 @@ class Heap():
         return self.__dict__.get(item)
 
     def __call__(self, *args, **kwargs):
-        for i in range(0,self.length):
+        for i in range(0, self.heapsize):
             print(self[i], end=' ')
 
     def LeftChild(self,i):
-        return  2*i+1
+        return 2*i+1
 
     def RightChild(self,i):
-        return  2*(i+1)
+        return 2*(i+1)
 
     def Parent(self,i):
         return floor((i-1)/2)
@@ -72,18 +74,17 @@ class Heap():
         leftchild = self.LeftChild(i)
         rightchild = self.RightChild(i)
         if leftchild < self.heapsize and self[leftchild] < self[i]:
-            samllest = leftchild
+            smallest = leftchild
         else:
-            samllest = i
-        if rightchild < self.heapsize and self[rightchild] < self[samllest]:
-            samllest = rightchild
-        if samllest != i:
-            self[i], self[samllest] = self[samllest], self[i]
-            self.Min_Heapify(samllest)
+            smallest = i
+        if rightchild < self.heapsize and self[rightchild] < self[smallest]:
+            smallest = rightchild
+        if smallest != i:
+            self[i], self[smallest] = self[smallest], self[i]
+            self.Max_Heapify(smallest)
 
-    def Build_Min_Heap(self):
+    def Build_Min_Heapify(self):
         i = floor(self.heapsize/2)
         while i >= 0:
             self.Min_Heapify(i)
             i = i - 1
-
