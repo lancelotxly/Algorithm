@@ -1,3 +1,28 @@
+'''
+tree: connection, no loop, no vector graph
+degree of a node:  equal the child nodes of the node
+depth of a node: the distance of the root to the node
+height of the tree: the maximum of the depth
+
+Binary tree:
+    full Binary tree: not exist the node with the degree equal 1, except the leaf nodes
+    complete Binary tree: all depth of the leaf nodes are same, and all inner nodes with degree equal 2
+                          For a complete tree, the height = log_k^n
+                                               the leaf nodes in degree 2 = k^h
+                                               inner nodes = (k^h-1)/(k-1)
+
+                          For complete binary tree: the inner nodes = 2^h-1
+                                                    the leaf nodes = 2^h
+                                                    thus, we obtain the left(or right)-child tree = leaf/2
+                                                          and the maximum of the child tree are (2/3)n
+'''
+'''
+Heap: For a Heap of n nodes, n = 2^m-1+k, where m-1 layer complete tree, and the mth layer has k nodes
+                            thus, the height of the Heap equal floor(lgn)
+      the leaf nodes are floor(n/2)+1, floor(n/2)+2,...n
+      the root nodes are 1,..floor(n/2)
+'''
+
 from math import floor
 class Heap():
     def __init__(self,*args):
@@ -41,5 +66,24 @@ class Heap():
         i = floor(self.heapsize/2)
         while i >= 0:
             self.Max_Heapify(i)
+            i = i - 1
+
+    def Min_Heapify(self,i):
+        leftchild = self.LeftChild(i)
+        rightchild = self.RightChild(i)
+        if leftchild < self.heapsize and self[leftchild] < self[i]:
+            samllest = leftchild
+        else:
+            samllest = i
+        if rightchild < self.heapsize and self[rightchild] < self[samllest]:
+            samllest = rightchild
+        if samllest != i:
+            self[i], self[samllest] = self[samllest], self[i]
+            self.Min_Heapify(samllest)
+
+    def Build_Min_Heap(self):
+        i = floor(self.heapsize/2)
+        while i >= 0:
+            self.Min_Heapify(i)
             i = i - 1
 

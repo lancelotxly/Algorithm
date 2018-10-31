@@ -126,16 +126,17 @@ def BubbleSort(A):
 
 '''
 HeapSort: Base on Max-Heap
+          time-complexity: O(nlgn)
 '''
 from Heap import Heap
 def HeapSort(A):
     h = Heap(*A)
-    h.Build_Max_Heap()
+    h.Build_Min_Heap()
     i = h.heapsize - 1
     while i >= 1:
         h[0], h[i] = h[i], h[0]
         h.heapsize = h.heapsize - 1
-        h.Max_Heapify(0)
+        h.Min_Heapify(0)
         i = i - 1
     return h
 
