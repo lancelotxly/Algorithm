@@ -53,6 +53,7 @@ class Priority_Queue(Heap):
         self[self.heapsize - 1] = - Inf
         self.Heap_Increase_Key(self.heapsize - 1, key)
 
+# test
 A = [16,14,10,8,7,9,3,2,4,1]
 q = Priority_Queue(*A)
 q.Heap_Insert(17)
