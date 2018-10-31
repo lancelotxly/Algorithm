@@ -89,8 +89,8 @@ def Linear_Time_Max_Subarray(A):
 #test
 A = [13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7]
 #A = [-5,-3,-4,-8]
-#l,r,s = Find_Max_Subarray(A,0,len(A)-1)
+l,r,s = Find_Max_Subarray(A,0,len(A)-1)
 #l,r,s = Brute_Force_Algorithm(A)
-l, r, s = Linear_Time_Max_Subarray(A)
+#l, r, s = Linear_Time_Max_Subarray(A)
 print(l,r,s)
 

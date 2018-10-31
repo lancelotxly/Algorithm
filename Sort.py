@@ -94,6 +94,7 @@ def MergeSort(A,p,r):
         MergeSort(A,q+1,r)
         # MergeInf(A,p,q,r)
         Merge(A,p,q,r)
+
 '''
 Merge and Insertion combine
 '''
@@ -122,6 +123,7 @@ def BubbleSort(A):
        for j in range(len(A)-1,i,-1):
            if A[j] < A[j-1]:
                A[j], A[j-1] = A[j-1], A[j]
+
 '''
 Search
 '''
@@ -158,5 +160,5 @@ def BinarySearchRecursive(A,v,p,r):
 
 # test
 A = [5,2,4,7,1,3,2,6]
-BubbleSort(A)
+Merge_Insert_Sort(A,0,len(A)-1,2)
 print(A)
