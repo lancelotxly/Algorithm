@@ -4,7 +4,10 @@ Increasing order sort. Input: list
 Including: Insertion Sort (O(n^2)), Selection Sort(O(n^2))
            Merge Sort (O(nlgn))
            Merge & Insert combine(O(nk+nlg(n/k)))
+           Heap Sort  (O(nlgn))
+
            LinearSearch (O(n)), BinarySearch(O(lgn))
+
 '''
 # -*- coding: utf-8 -*-
 # __author__ = 'xzq'
@@ -140,6 +143,15 @@ def HeapSort(A):
         i = i - 1
     return h
 
+def HeapSort(A):
+    h = Heap(*A)
+    h.Build_Max_Heap()
+    i = h.heapsize - 1
+    while i >= 1:
+        h[0], h[i] = h[i], h[0]
+        h.heapsize = h.heapsize - 1
+        h.Max_Heapify(0)
+        i = i - 1
 '''
 Quick Sort: time-complexity: O(nlgn)
 '''
@@ -147,21 +159,33 @@ def Partition(A,p,r):
     x = A[r]
     i = p - 1
     for j in range(p,r):
-        if A[j] < x:
+        if A[j] <= x and j%2 == (i+1) % 2:
             i = i + 1
             A[i], A[j] = A[j], A[i]
     A[i+1], A[r] = A[r], A[i+1]
     return i+1
-
 def Quick_Sort(A,p,r):
     if p < r:
         q = Partition(A,p,r)
         Quick_Sort(A,p,q-1)
         Quick_Sort(A,q+1,r)
 
+# Random case
+from random import randint
+def Randomized_Partition(A,p,r):
+    i = randint(p,r)
+    A[r], A[i] = A[i], A[r]
+    return Partition(A,p,r)
+
+def Randmized_Quick_Sort(A,p,r):
+    if p < r:
+        q = Randomized_Partition(A,p,r)
+        Randmized_Quick_Sort(A,p,q-1)
+        Randmized_Quick_Sort(A,q+1,r)
+
 # test
-A = [4,3,1,0,5,7]
-Quick_Sort(A,0,len(A)-1)
+A = [4,3,2,2,2,7]
+Randmized_Quick_Sort(A,0,len(A)-1)
 print(A)
 
 '''
