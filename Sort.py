@@ -1,10 +1,14 @@
 '''
 Increasing order sort. Input: list
                        Output: list
-Including: Insertion Sort (O(n^2)), Selection Sort(O(n^2))
+Including: #1. Sort based on compare, time-complexity must larger than O(nlgn)
+           Insertion Sort (O(n^2)), Selection Sort(O(n^2))
            Merge Sort (O(nlgn))
            Merge & Insert combine(O(nk+nlg(n/k)))
            Heap Sort  (O(nlgn))
+
+           #2. Linear time-complexity sort
+           Count_Sort  (O(n))  # only for the number are integer and great than zero
 
            LinearSearch (O(n)), BinarySearch(O(lgn))
 
@@ -183,11 +187,47 @@ def Randmized_Quick_Sort(A,p,r):
         Randmized_Quick_Sort(A,p,q-1)
         Randmized_Quick_Sort(A,q+1,r)
 
-# test
-A = [4,3,2,2,2,7]
-Randmized_Quick_Sort(A,0,len(A)-1)
-print(A)
+'''
+Count sort: 
+          Input: <= 0 and the maximum of array
+          Output: increased order array
+          time-complexity: O(n) = O(n+k)+O(n)
+                                  O(n+k) to count, O(n) to order
+Count interval number:
+          Input: <=0, the maximum of array, [a,b] to count
+          Output: the number of elements fall into [a,b]
+          time-complexity: O(n) = O(n+k)+O(1)
+                                  O(n+k) to count, O(1) to find out
+                           
+'''
+def Count_Sort(A,max_A):
+    A_length = len(A)
+    B = [0]*A_length
+    C = [0]*(max_A+1)
+    for i in range(0,A_length):
+        C[A[i]] = C[A[i]] + 1
+    for i in range(1,len(C)):
+        C[i] = C[i] + C[i-1]
+    for i in range(0,A_length):
+        B[C[A[i]]-1] = A[i]
+        C[A[i]] = C[A[i]] - 1
+    return B
 
+def Count_Interval_Number(A,max_A,a,b):
+    A_length = len(A)
+    B = [0]*A_length
+    C = [0]*(max_A+1)
+    for i in range(0,A_length):
+        C[A[i]] = C[A[i]] + 1
+    for i in range(1,len(C)):
+        C[i] = C[i] + C[i-1]
+    return C[b] - C[a-1]
+
+A = [6,0,2,0,1,3,4,6,1,3,2]
+B = Count_Sort(A,6)
+print(B)
+number =Count_Interval_Number(A,6,3,6)
+print(number)
 '''
 Search
 '''
