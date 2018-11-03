@@ -233,6 +233,7 @@ str(num)  num to str
 '''
 def Radix_Sort(A,max_A):
     max_digits = len(str(max_A))
+    A_length = len(A)
     def preprocess(x,digits):
         data = []
         for i in range(digits-1,-1,-1):
@@ -241,9 +242,30 @@ def Radix_Sort(A,max_A):
         return tuple(data)
     A_digits = [preprocess(x, max_digits) for x in A]
 
+    i = max_digits - 1
+    B = [0] * A_length
+    C = [0] * 10
+    index = list(range(0, A_length))
+    while i >=0 :
+        digits_array = [A_digits[j][i] for j in index]  # A
+        for x in range(0,A_length):
+            C[digits_array[x]] = C[digits_array[x]] + 1
+        for x in range(1,10):
+            C[x] = C[x] + C[x-1]
+        for x in range(0,A_length):
+            B[C[digits_array[x]]-1] = x
+            C[digits_array[x]] = C[digits_array[x]] - 1
+        index = B
+        B = [0] * A_length
+        C = [0] * 10
+        i = i - 1
+
+    B = [A_digits[i] for i in index]
+    return B,index
 A = [329,457,657,839,436,720,355]
-A = Radix_Sort(A,839)
-print(A)
+B,index = Radix_Sort(A,839)
+print(B,index)
+
 '''
 Search
 '''
