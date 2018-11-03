@@ -223,11 +223,27 @@ def Count_Interval_Number(A,max_A,a,b):
         C[i] = C[i] + C[i-1]
     return C[b] - C[a-1]
 
-A = [6,0,2,0,1,3,4,6,1,3,2]
-B = Count_Sort(A,6)
-print(B)
-number =Count_Interval_Number(A,6,3,6)
-print(number)
+'''
+Radix Sort
+a//b  # a除以b取商
+a**b  # a^b
+math.exp(x) # e^x
+tuple(list) <--> list(tuple)
+str(num)  num to str
+'''
+def Radix_Sort(A,max_A):
+    max_digits = len(str(max_A))
+    def preprocess(x,digits):
+        data = []
+        for i in range(digits-1,-1,-1):
+            number = (x // 10**i) % 10
+            data.append(number)
+        return tuple(data)
+    A_digits = [preprocess(x, max_digits) for x in A]
+
+A = [329,457,657,839,436,720,355]
+A = Radix_Sort(A,839)
+print(A)
 '''
 Search
 '''
