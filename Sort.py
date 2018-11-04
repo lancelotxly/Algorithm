@@ -274,28 +274,32 @@ def Radix_Sort(A,max_A):
     return A_new
 
 '''
-Bucket Sort: 
+Bucket Sort: we assume the elements of input array 'A' are Uniform distributed.
+             1. we design a bucket according to the maximum of 'A'. Specially, there are sqrt(maximum)+1 buckets
+             2. we use insertion sort at each buckets and then combine these buckets as the buckets' order
+             time-complexity: O(n)       
 '''
-from math import floor
-def Bucket_Sort(A):
+from math import floor, sqrt,ceil
+def Bucket_Sort(A,max_A):
     A_length = len(A)
-    B = [0]*10
+    n = ceil(sqrt(max_A)) + 1
+    B = [0]*n
     B_new = []
     for i in range(0,A_length):
-        B[floor(A[i]/10)] = []
+        B[floor(A[i]/n)] = []
     for i in range(0,A_length):
-        B[floor(A[i]/10)].append(A[i])
+        B[floor(A[i]/n)].append(A[i])
     for i in range(0,A_length):
-        B[floor(A[i]/10)] = InsertionSort(B[floor(A[i]/10)])
-    for i in range(0,10):
+        B[floor(A[i]/n)] = InsertionSort(B[floor(A[i]/n)])
+    for i in range(0,n):
         if isinstance(B[i],list):
              B_new.extend(B[i])
 
 
     return B_new
 
-A = [100,17,39,26,72,94,21,12,23,68]
-B_new=Bucket_Sort(A)
+A = [0,100,1000,79,888,1,9]
+B_new=Bucket_Sort(A,1000)
 print(B_new)
 
 '''
