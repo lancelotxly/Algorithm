@@ -208,7 +208,7 @@ def Count_Sort(A,max_A):
         C[A[i]] = C[A[i]] + 1
     for i in range(1,len(C)):
         C[i] = C[i] + C[i-1]
-    for i in range(0,A_length):
+    for i in range(A_length-1,-1,-1):
         B[C[A[i]]-1] = A[i]
         C[A[i]] = C[A[i]] - 1
     return B
@@ -232,40 +232,40 @@ tuple(list) <--> list(tuple)
 str(num)  num to str
 '''
 def Radix_Sort(A,max_A):
-    max_digits = len(str(max_A))
     A_length = len(A)
-    def preprocess(x,digits):
-        data = []
-        for i in range(digits-1,-1,-1):
-            number = (x // 10**i) % 10
-            data.append(number)
-        return tuple(data)
-    A_digits = [preprocess(x, max_digits) for x in A]
+    max_digit = len(str(max_A))
+    A_digit = []
+    def Preprocess():
+        for i in range(0,A_length):
+            number = [i,]
+            for digit in range(max_digit-1,-1,-1):
+                digit_data = (A[i] // 10**digit) % 10
+                number.append(digit_data)
+            A_digit.append(tuple(number))
+    Preprocess()
 
-    i = max_digits - 1
-    B = [0] * A_length
-    C = [0] * 10
-    index = list(range(0, A_length))
-    while i >=0 :
-        digits_array = [A_digits[j][i] for j in index]  # A
-        for x in range(0,A_length):
-            C[digits_array[x]] = C[digits_array[x]] + 1
-        for x in range(1,10):
-            C[x] = C[x] + C[x-1]
-        for x in range(0,A_length):
-            B[C[digits_array[x]]-1] = x
-            C[digits_array[x]] = C[digits_array[x]] - 1
-        index = B
-        B = [0] * A_length
-        C = [0] * 10
-        i = i - 1
+    digit_i = max_digit
+    index = list(range(0,A_length))
+    B = [0]*A_length
+    while digit_i >= 1:
+        C = [0]*10
+        digit_data = [tuple([x, A_digit[x][digit_i]]) for x in index]
+        for i in range(0,A_length):
+             C[digit_data[i][1]] = C[digit_data[i][1]] + 1
+        for i in range(1,10):
+             C[i] = C[i] + C[i-1]
+        for i in range(A_length-1,-1,-1):
+             B[C[digit_data[i][1]]-1] = digit_data[i]
+             C[digit_data[i][1]] = C[digit_data[i][1]] - 1
+        index = [B[i][0] for i in range(0,A_length)]
+        digit_i = digit_i - 1
 
-    B = [A_digits[i] for i in index]
-    return B,index
-A = [329,457,657,839,436,720,355]
-B,index = Radix_Sort(A,839)
-print(B,index)
+    A_new = [A[x] for x in index]
+    return A_new
 
+A = [329,657,457,839,436,720,355]
+A_new = Radix_Sort(A,839)
+print(A_new)
 '''
 Search
 '''
