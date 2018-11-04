@@ -30,6 +30,7 @@ def InsertionSort(A):
             A[j+1] = A[j]
             j = j -1
         A[j+1] = key
+    return A
 
 # recursive
 def Insert(A,r):
@@ -224,7 +225,17 @@ def Count_Interval_Number(A,max_A,a,b):
     return C[b] - C[a-1]
 
 '''
-Radix Sort
+Radix Sort: it's a advanced edition of Count-Sort,
+            1. we divide the data which for to sort into digits
+            2. then use Count-Sort in each digits from low to high
+            
+            Input: >=0, maximum of the array
+            Output: increasing order array
+            time-complexity: O(d(n+k))
+            but the space-complexity is less than corresponding case in Count-Sort.
+            
+            tips: to locate every data we introduce a tuple about the number and digit, like (number,digit)
+            
 a//b  # a除以b取商
 a**b  # a^b
 math.exp(x) # e^x
@@ -259,13 +270,34 @@ def Radix_Sort(A,max_A):
              C[digit_data[i][1]] = C[digit_data[i][1]] - 1
         index = [B[i][0] for i in range(0,A_length)]
         digit_i = digit_i - 1
-
     A_new = [A[x] for x in index]
     return A_new
 
-A = [329,657,457,839,436,720,355]
-A_new = Radix_Sort(A,839)
-print(A_new)
+'''
+Bucket Sort: 
+'''
+from math import floor
+def Bucket_Sort(A):
+    A_length = len(A)
+    B = [0]*10
+    B_new = []
+    for i in range(0,A_length):
+        B[floor(A[i]/10)] = []
+    for i in range(0,A_length):
+        B[floor(A[i]/10)].append(A[i])
+    for i in range(0,A_length):
+        B[floor(A[i]/10)] = InsertionSort(B[floor(A[i]/10)])
+    for i in range(0,10):
+        if isinstance(B[i],list):
+             B_new.extend(B[i])
+
+
+    return B_new
+
+A = [100,17,39,26,72,94,21,12,23,68]
+B_new=Bucket_Sort(A)
+print(B_new)
+
 '''
 Search
 '''
