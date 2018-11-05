@@ -102,6 +102,7 @@ def MergeSort(A,p,r):
         MergeSort(A,q+1,r)
         # MergeInf(A,p,q,r)
         Merge(A,p,q,r)
+    return A
 
 '''
 Merge and Insertion combine
@@ -164,7 +165,7 @@ def Partition(A,p,r):
     x = A[r]
     i = p - 1
     for j in range(p,r):
-        if A[j] <= x and j%2 == (i+1) % 2:
+        if A[j] <= x:
             i = i + 1
             A[i], A[j] = A[j], A[i]
     A[i+1], A[r] = A[r], A[i+1]
@@ -174,6 +175,7 @@ def Quick_Sort(A,p,r):
         q = Partition(A,p,r)
         Quick_Sort(A,p,q-1)
         Quick_Sort(A,q+1,r)
+    return A
 
 # Random case
 from random import randint
@@ -277,6 +279,9 @@ def Radix_Sort(A,max_A):
 Bucket Sort: we assume the elements of input array 'A' are Uniform distributed.
              1. we design a bucket according to the maximum of 'A'. Specially, there are sqrt(maximum)+1 buckets
              2. we use insertion sort at each buckets and then combine these buckets as the buckets' order
+             
+             Input : >=0 integer
+             Output: increasing order array
              time-complexity: O(n)       
 '''
 from math import floor, sqrt,ceil
@@ -294,45 +299,7 @@ def Bucket_Sort(A,max_A):
     for i in range(0,n):
         if isinstance(B[i],list):
              B_new.extend(B[i])
-
-
     return B_new
 
-A = [0,100,1000,79,888,1,9]
-B_new=Bucket_Sort(A,1000)
-print(B_new)
 
-'''
-Search
-'''
-# linear Search
-def LinearSearch(A,v):
-    for i in range(0,len(A)):
-        if A[i] == v:
-            return i
-    return 'Nil'
-
-# binary Search
-def BinarySearch(A,v,p,r):
-    while p <= r:
-        q = math.floor((p+r)/2)
-        if A[q] == v:
-            return q
-        elif A[q] < v:
-            p = q + 1
-        else:
-            r = q - 1
-    return 'Nil'
-
-# binary Search recursive
-def BinarySearchRecursive(A,v,p,r):
-    if p > r:
-        return 'Nil'
-    q = math.floor((p+r)/2)
-    if A[q] == v:
-        return q
-    elif A[q] < v:
-        return BinarySearchRecursive(A,v,q+1,r)
-    else:
-        return BinarySearchRecursive(A,v,p,q-1)
 
