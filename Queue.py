@@ -178,11 +178,7 @@ class Double_End_Queue():
         except Queue_Error as e:
             e.Queue_Undeflow()
 
-# test
-Q = Double_End_Queue(5)
-Q.Head_EnQueue(1)
-Q.Tail_EnQueue(5)
-Q.Head_EnQueue(2)
-Q.Tail_EnQueue(4)
-Q.Head_EnQueue(3)
-print(Q.__dict__)
+class Queue_comesfrom_Stack():
+    pass
+
+

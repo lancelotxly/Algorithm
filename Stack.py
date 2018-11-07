@@ -65,6 +65,9 @@ class Stack_Dict():
        except Stack_error as e:
            e.Stack_Underflow()
 
+   def clearStack(self):
+        self.top = 0
+
 '''
 Stack based on List: we introduce a new list at the internal of the class to save the data
                      then the arrange of the data is from '0' to 'n-1'
@@ -187,3 +190,6 @@ print(s.pop('Right'))
 print(s.pop('Right'))
 print(s.pop('Right'))
 print(s.__dict__)
+
+class Stack_comesfrom_Queue():
+    pass
