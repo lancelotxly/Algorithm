@@ -27,10 +27,10 @@ class Queue_Dict():
             return False
 
     def isQueueFull(self):
-        if (self.head == 0 and self.tail == self.QueueLength) or (self.head == self.tail + 1):
+        if self.head == self.tail + 1 or (self.head == 0 and self.tail == self.QueueLength):
             return True
         else:
-            return False
+            return  False
 
     def EnQueue(self,x):
         try:
@@ -59,9 +59,130 @@ class Queue_Dict():
         except Queue_Error as e:
             e.Queue_Undeflow()
 
-q = Queue_Dict(5)
-for i in range(0,q.QueueLength):
-    q.EnQueue(i)
-for i in range(0,q.QueueLength):
-    print(q.DeQueue())
-print(q.__dict__)
+class Queue_List():
+    def __init__(self,n):
+        self.QueueLength = n
+        self.head = 0
+        self.tail = 0
+        self.DataList = [0]*(n+1)
+
+    def isQueueEmpty(self):
+        if self.head == self.tail:
+            return True
+        else:
+            return False
+
+    def isQueueFull(self):
+        if self.head == self.tail + 1 or (self.head == 0 and self.tail == self.QueueLength):
+            return True
+        else:
+            return False
+
+    def EnQueue(self,x):
+        try:
+            if self.isQueueFull():
+                raise  Queue_Error
+            else:
+                self.DataList[self.tail] = x
+                if self.tail == self.QueueLength:
+                    self.tail = 0
+                else:
+                    self.tail = self.tail + 1
+        except Queue_Error as e:
+            e.Queue_Overflow()
+
+    def DeQueue(self):
+        try:
+            if self.isQueueEmpty():
+                raise Queue_Error
+            else:
+                x = self.DataList[self.head]
+                if self.head == self.QueueLength:
+                    self.head = 0
+                else:
+                    self.head = self.head + 1
+                return  x
+        except Queue_Error as e:
+            e.Queue_Undeflow()
+
+class Double_End_Queue():
+    def __init__(self,n):
+        self.QueueLength = n
+        self.head = 0
+        self.tail = 0
+        self.DataList = [0] * (n+2)
+
+    def isQueueEmpty(self):
+        if self.head == self.tail:
+            return True
+        else:
+            return False
+
+    def isQueueFull(self):
+        if self.head == self.tail + 1 or (self.head == 0 and self.tail == self.QueueLength + 1):
+            return True
+        else:
+            return False
+
+    def Head_EnQueue(self,x):
+        try:
+            if self.isQueueFull():
+                raise Queue_Error
+            else:
+                self.DataList[self.head] = x
+                if self.head == 0:
+                    self.head = self.QueueLength + 1
+                else:
+                    self.head = self.head - 1
+        except Queue_Error as e:
+            e.Queue_Overflow()
+
+    def Head_DeQueue(self):
+        try:
+            if self.isQueueEmpty():
+                raise Queue_Error
+            else:
+                if self.head == self.QueueLength + 1:
+                    self.head = 0
+                else:
+                    self.head = self.head + 1
+                x = self.DataList[self.head]
+                return  x
+        except Queue_Error as e:
+            e.Queue_Undeflow()
+
+    def Tail_EnQueue(self,x):
+        try:
+            if self.isQueueFull():
+                raise Queue_Error
+            else:
+                self.DataList[self.tail] = x
+                if self.tail == self.QueueLength + 1:
+                    self.tail = 0
+                else:
+                    self.tail = self.tail - 1
+        except Queue_Error as e:
+            e.Queue_Overflow()
+
+    def Tail_DeQueue(self):
+        try:
+            if self.isQueueEmpty():
+                raise Queue_Error
+            else:
+                if self.tail == 0:
+                    self.tail = self.QueueLength + 1
+                else:
+                    self.tail = self.tail -1
+                x = self.DataList[self.tail]
+                return x
+        except Queue_Error as e:
+            e.Queue_Undeflow()
+
+# test
+Q = Double_End_Queue(5)
+Q.Head_EnQueue(1)
+Q.Tail_EnQueue(5)
+Q.Head_EnQueue(2)
+Q.Tail_EnQueue(4)
+Q.Head_EnQueue(3)
+print(Q.__dict__)
