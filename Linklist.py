@@ -28,6 +28,19 @@ class Single_Link_List():
         node.next = self.head
         self.head = node
 
+    def Delete_Link(self, data):
+        temp1 = temp2 = self.head
+        while temp1 != None and temp1.data != data:
+            temp2 = temp1
+            temp1 = temp1.next
+
+        if temp1 != None:
+            if temp2 != temp1:
+                temp2.next = temp1.next
+            else:
+                self.head = temp1.next
+        else:
+            print('%d is not found' % data)
 
     def Search_Link(self,data):
         self.temp = self.head
@@ -38,19 +51,7 @@ class Single_Link_List():
         else:
             return None
 
-    def Delete_Link(self,data):
-        temp1 = temp2 = self.head
-        while temp1 != None and temp1.data != data:
-            temp2 = temp1
-            temp1 = temp1.next
 
-        if temp1 != None:
-          if temp2 != temp1:
-              temp2.next = temp1.next
-          else:
-              self.head = temp1.next
-        else:
-            print('%d is not found' % data)
 
     def Print_Link(self):
         self.temp = self.head
