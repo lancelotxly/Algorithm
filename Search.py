@@ -6,15 +6,15 @@ Search methods, include
                                          1) Based on Selection Sort, time complexity: O(nlgn)
 '''
 import math
-# linear Search: time complexity: O(n)
 def LinearSearch(A,v):
-    for i in range(0,len(A)):
+    A_length = len(A)
+    for i in range(0,A_length):
         if A[i] == v:
             return i
     return 'Nil'
 
-# binary Search, the input must ordered array, time-complexity: O(lgn)
-def BinarySearch(A,v,p,r):
+# # binary Search, the input must ordered array, time-complexity: O(lgn)
+def BinarySearch(A,p,r,v):
     while p <= r:
         q = math.floor((p+r)/2)
         if A[q] == v:
@@ -26,16 +26,16 @@ def BinarySearch(A,v,p,r):
     return 'Nil'
 
 # binary Search recursive
-def BinarySearchRecursive(A,v,p,r):
+def BinarySearchRecursive(A,p,r,v):
     if p > r:
         return 'Nil'
     q = math.floor((p+r)/2)
     if A[q] == v:
         return q
-    elif A[q] < v:
-        return BinarySearchRecursive(A,v,q+1,r)
+    elif A[q] < r:
+        return BinarySearchRecursive(A,q+1,r,v)
     else:
-        return BinarySearchRecursive(A,v,p,q-1)
+        return BinarySearchRecursive(A,p,q-1,v)
 
 '''
 Select the ith order statistic: 
@@ -84,9 +84,7 @@ def Iterative_Randomized_Selection(A,p,r,i):
             p = q + 1
             i = i - k
     return A[p]
-A = [0,8,7,6,5,2,1,3,9,4]
-number = Iterative_Randomized_Selection(A,0,9,7)
-print(number)
+
 
 '''
 

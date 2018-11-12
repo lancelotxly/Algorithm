@@ -19,21 +19,17 @@ Random(a,b):  input: a,b
 '''
 from functools import reduce
 from random import randint
-from math import floor, log2
+from math import floor, log2, ceil
 
-def Random(a,b):
-    n = floor(log2(b-a+1))
-    A = []
+def RandomRange(a,b):
+    digit = floor(log2(b-a+1))
+    data = []
     def binary2int(x,y):
         return 2*x+y
     while True:
-        for i in range(0,n):
-            A.append(randint(0,1))
-        number = reduce(binary2int, A)
-        if  a <= number <=b:
+        for i in range(0,digit):
+            data.append(randint(0,1))
+        delta = reduce(binary2int, data)
+        number = a + delta
+        if number >= a and number <= b:
             return number
-
-# test
-number = Random(0,1)
-print(number)
-
