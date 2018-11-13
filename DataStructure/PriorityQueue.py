@@ -8,6 +8,11 @@ Priority queue: inherit from Heap.py
                                     increase_PQueue_NewKey(i,new_key)  # increase PQ[i] to 'new_key', time-complexity: O(lgn)
                                     decrease_PQueue_to_Newkey(i,new_key)
 
+                                    search_PQueue_key(key)   # return the order of the key
+                                    delete_PQueue_ith(i)     # delete the ith key
+                                    delete_PQueue_Key(key)   # delete the key
+
+
 '''
 from DataStructure.Heap import Heap
 
@@ -27,7 +32,8 @@ class PQ_Error(Exception):
     def PQ_Key_not_found(self,key):
         return 'the key %d is not found' % key
 
-class Max_Priority_Queue(Heap):
+# Maximum priority queue
+class Maximum_Priority_Queue(Heap):
     def __init__(self,*args):
         super().__init__(*args)
         self.max_heapsize = self.heapsize
@@ -67,9 +73,6 @@ class Max_Priority_Queue(Heap):
                 raise PQ_Error
             else:
                 self[i] = new_key
-                while i > 0 and self[self.Parent(i)] > self[i]:
-                    self[i], self[self.Parent(i)] = self[self.Parent(i)], self[i]
-                    i = self.Parent(i)
                 self.Max_Heapify(i)
         except PQ_Error as e:
             print(e.PQ_Greater_Newkey(new_key,self[i]))
@@ -81,13 +84,11 @@ class Max_Priority_Queue(Heap):
             else:
                 Inf = float('Inf')
                 self.heapsize = self.heapsize + 1
+                self.max_heapsize = self.heapsize
                 self[self.heapsize-1] = -Inf
                 self.increase_PQueue_to_NewKey(self.heapsize-1,new_key)
         except PQ_Error as e:
             print(e.PQ_Overflow())
-
-    def search_PQueue_key(self,key):
-        pass
 
     def delete_PQueue_ith(self,i):
         self[i] = self[self.heapsize-1]
@@ -108,12 +109,87 @@ class Max_Priority_Queue(Heap):
         i = self.search_PQueue_Key(key)
         self.delete_PQueue_ith(i)
 
+# Minimum priority queue
+class Minimum_Priority_Queue(Heap):
+    def __init__(self,*args):
+        super().__init__(*args)
+        self.max_heapsize = self.heapsize
+        self.Build_Min_Heap()
+
+    def get_PQueue_MinKey(self):
+        return self[0]
+
+    def pop_PQueue_MinKey(self):
+        try:
+            if self.heapsize < 1:
+                raise PQ_Error
+            else:
+                max_key = self[0]
+                self[0] = self[self.heapsize-1]
+                self.heapsize = self.heapsize - 1
+                self.Min_Heapify(0)
+                return max_key
+        except PQ_Error as e:
+            print(e.PQ_Underflow())
+
+    def increase_PQueue_to_NewKey(self, i, new_key):
+        try:
+            if new_key < self[i]:
+                raise PQ_Error
+            else:
+                self[i] = new_key
+                self.Min_Heapify(i)
+        except PQ_Error as e:
+            print(e.PQ_Smaller_NewKey(new_key, self[i]))
+
+    def decrease_PQueue_to_Newkey(self,i,new_key):
+        try:
+            if self[i] < new_key:
+                raise PQ_Error
+            else:
+                self[i] = new_key
+                while i > 0 and self[self.Parent(i)] > self[i]:
+                    self[i], self[self.Parent(i)] = self[self.Parent(i)], self[i]
+                    i = self.Parent(i)
+        except PQ_Error as e:
+            print(e.PQ_Greater_Newkey(new_key,self[i]))
+
+    def insert_PQueue_NewKey(self,new_key,autoincrease=True):
+        try:
+            if autoincrease == False:
+                raise PQ_Error
+            else:
+                Inf = float('Inf')
+                self.heapsize = self.heapsize + 1
+                self.max_heapsize = self.heapsize
+                self[self.heapsize-1] = Inf
+                self.decrease_PQueue_to_Newkey(self.heapsize-1,new_key)
+        except PQ_Error as e:
+            print(e.PQ_Overflow())
+
+    def delete_PQueue_ith(self,i):
+        self[i] = self[self.heapsize-1]
+        self.heapsize = self.heapsize - 1
+        self.Min_Heapify(i)
+
+    def search_PQueue_Key(self,key):
+        try:
+            for i in range(0,self.heapsize):
+                if self[i] == key:
+                    return i
+            if i == self.heapsize:
+                raise PQ_Error
+        except PQ_Error as e:
+            print(e.PQ_Key_not_found(key))
+
+    def delte_PQueue_Key(self,key):
+        i = self.search_PQueue_Key(key)
+        self.delete_PQueue_ith(i)
 # test
 A = [4,1,3,2,16,9,10,14,8,7]
-PQ = Max_Priority_Queue(*A)
+PQ = Minimum_Priority_Queue(*A)
 PQ()
-PQ.decrease_PQueue_to_Newkey(0,0)
+PQ.insert_PQueue_NewKey(0)
 PQ()
-print(PQ.search_PQueue_Key(0))
-PQ.delte_PQueue_Key(0)
+PQ.delete_PQueue_ith(0)
 PQ()
