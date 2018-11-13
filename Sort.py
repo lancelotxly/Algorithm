@@ -142,27 +142,21 @@ def BubbleSort(A):
 HeapSort: Base on Max-Heap
           time-complexity: O(nlgn)
 '''
-from Heap import Heap
-def HeapSort(A):
+from DataStructure.Heap import Heap
+def Heap_Sort(A):
     h = Heap(*A)
     h.Build_Max_Heap()
+    temp = h.heapsize
     i = h.heapsize - 1
     while i >= 1:
         h[0], h[i] = h[i], h[0]
         h.heapsize = h.heapsize - 1
         h.Max_Heapify(0)
         i = i - 1
+    h.heapsize = temp
     return h
 
-def HeapSort(A):
-    h = Heap(*A)
-    h.Build_Max_Heap()
-    i = h.heapsize - 1
-    while i >= 1:
-        h[0], h[i] = h[i], h[0]
-        h.heapsize = h.heapsize - 1
-        h.Max_Heapify(0)
-        i = i - 1
+
 '''
 Quick Sort: time-complexity: O(nlgn)
 '''

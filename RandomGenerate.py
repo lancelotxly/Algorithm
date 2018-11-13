@@ -33,7 +33,3 @@ def RandomRange(a,b):
         number = a + delta
         if number >= a and number <= b:
             return number
-
-# test
-number = RandomRange(100,110)
-print(number)
