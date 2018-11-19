@@ -146,16 +146,15 @@ from DataStructure.Heap import Heap
 def Heap_Sort(A):
     h = Heap(*A)
     h.Build_Max_Heap()
-    temp = h.heapsize
-    i = h.heapsize - 1
+    temp = h.heap_size
+    i = h.heap_size - 1
     while i >= 1:
         h[0], h[i] = h[i], h[0]
-        h.heapsize = h.heapsize - 1
+        h.heap_size = h.heap_size - 1
         h.Max_Heapify(0)
         i = i - 1
-    h.heapsize = temp
+    h.heap_size = temp
     return h
-
 
 '''
 Quick Sort: time-complexity: O(nlgn)
