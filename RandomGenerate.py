@@ -7,6 +7,10 @@ random. random()  # [0,1) float
         expovariate(lambda) # generate a number satisfying exponential distribute
         gauss(mu,sigma) # generate a number satisfying Gaussian distribute
         lognormvariate(mu,sigma) # generate a number satisfying lognormal distribute
+
+Modules requirements: from functools import reduce
+                      from random import randint
+                      from math import log2, ceil
 '''
 '''
 Random(a,b):  input: a,b
@@ -17,14 +21,14 @@ Random(a,b):  input: a,b
                       3. rebuild the number based on the binary code, if the rebuild number in [a,b] then output
                          or not replay 1.2
 '''
-from functools import reduce
 from random import randint
-from math import log2, ceil
+from math import ceil,log2
+from functools import reduce
 
 def RandomRange(a,b):
     def Binary2Int(x,y):
-        return 2*x+y
-    digits = ceil(log2(b-2+1))
+        return 2*x + y
+    digits = ceil(log2(b-a+1))
     while True:
         data = []
         for i in range(0,digits):
@@ -33,3 +37,6 @@ def RandomRange(a,b):
         number = a + delta
         if number >= a and number <= b:
             return number
+#test
+number = RandomRange(100,1110)
+print(number)
