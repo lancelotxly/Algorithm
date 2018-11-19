@@ -4,8 +4,11 @@ Search methods, include
       2. BinarySearch(A,v,p,r) or BinarySearchRecursive(A,v,p,r) from a order(where increasing order) select a variable, time-complexity: O(lgn)
       3. Select the ith order statistic: from a array select the ith smallest number
                                          1) Based on Selection Sort, time complexity: O(nlgn)
+
+Modules requirements: import math
 '''
 import math
+
 def LinearSearch(A,v):
     A_length = len(A)
     for i in range(0,A_length):
@@ -14,7 +17,7 @@ def LinearSearch(A,v):
     return 'Nil'
 
 # # binary Search, the input must ordered array, time-complexity: O(lgn)
-def BinarySearch(A,p,r,v):
+def Binary_Seach(A,p,r,v):
     while p <= r:
         q = math.floor((p+r)/2)
         if A[q] == v:
@@ -26,16 +29,16 @@ def BinarySearch(A,p,r,v):
     return 'Nil'
 
 # binary Search recursive
-def BinarySearchRecursive(A,p,r,v):
+def Binary_Search_Recursive(A,p,r,v):
     if p > r:
         return 'Nil'
     q = math.floor((p+r)/2)
     if A[q] == v:
         return q
-    elif A[q] < r:
-        return BinarySearchRecursive(A,q+1,r,v)
+    elif A[q] < v:
+        return Binary_Search_Recursive(A,q+1,r,v)
     else:
-        return BinarySearchRecursive(A,p,q-1,v)
+        return Binary_Search_Recursive(A,p,q-1,v)
 
 '''
 Select the ith order statistic: 

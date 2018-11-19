@@ -12,16 +12,15 @@ Including: #1. Sort based on compare, time-complexity must larger than O(nlgn)
 
            LinearSearch (O(n)), BinarySearch(O(lgn))
 
+Module Requirements: import math
 '''
 # -*- coding: utf-8 -*-
 # __author__ = 'xzq'
 import math
-Inf = float('Inf')
-
 '''
-Insertion sort
+Insertion sort : O(n^2)
 '''
-# normal
+# # normal
 def InsertionSort(A):
     A_length = len(A)
     for i in range(1,A_length):
@@ -31,7 +30,7 @@ def InsertionSort(A):
             A[j+1] = A[j]
             j = j - 1
         A[j+1] = key
-    return A
+    return  A
 
 # recursive
 def Insert(A,r):
@@ -46,30 +45,31 @@ def InsertionSort_Recursive(A,r):
     if r > 0:
         InsertionSort_Recursive(A,r-1)
         Insert(A,r)
-    return A
+    return  A
 
 '''
-Selection Sort
+Selection Sort: O(n^2)
 '''
 def SelectionSort(A):
     A_length = len(A)
     for i in range(0,A_length-1):
-        samllest = i
+        smallest = i
         for j in range(i+1,A_length):
-            if A[j] < A[samllest]:
-                samllest = j
-        A[i], A[samllest] =A[samllest], A[i]
+            if A[j] < A[smallest]:
+                smallest = j
+        A[i], A[smallest] = A[smallest], A[i]
     return A
 
 '''
-Merge Sort
+Merge Sort: O(nlgn)
 '''
-def MergeInf(A,p,q,r):
+def Merge_Inf(A,p,q,r):
+    Inf = float('Inf')
     L = A[p:q+1]
     R = A[q+1:r+1]
     L.append(Inf)
     R.append(Inf)
-    i , j = 0, 0
+    i, j = 0, 0
     for k in range(p,r+1):
         if L[i] < R[j]:
             A[k] = L[i]
@@ -98,20 +98,20 @@ def Merge(A,p,q,r):
     else:
         A[k:r+1] = L[i:L_length]
 
-def MergeSort(A,p,r):
+def MergeSort(A,p,r):   # No cycle style, because the proceeding include separate and merge, and only the separate recursive has cycle style
     if p < r:
         q = math.floor((p+r)/2)
         MergeSort(A,p,q)
         MergeSort(A,q+1,r)
+        # Merge_Inf(A,p,q,r)
         Merge(A,p,q,r)
-        # MergeInf(A,p,q,r)
     return A
 
 '''
-Merge and Insertion combine
+Merge and Insertion combine: O(nk+nlg(n/k)) = n/k*(O(k^2)) + O(nlg(n/k))
 '''
 def Insert_K(A,p,r):
-    for i in range(p+1, r+1):
+    for i in range(p+1,r+1):
         key = A[i]
         j = i - 1
         while j >= p and A[j] > key:
@@ -128,14 +128,14 @@ def Merge_Insert_Sort(A,p,r,k):
     return A
 
 '''
-Bubble Sort
+Bubble Sort : O(n^2)
 '''
-def BubbleSort(A):
+def Bubble_Sort(A):
     A_length = len(A)
     for i in range(0,A_length-1):
         for j in range(A_length-1,i,-1):
             if A[j] < A[j-1]:
-                A[j], A[j-1] = A[j-1], A[j]
+                A[j-1], A[j] = A[j], A[j-1]
     return A
 
 '''
