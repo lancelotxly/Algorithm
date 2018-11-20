@@ -159,16 +159,16 @@ def Heap_Sort(A):
 '''
 Quick Sort: time-complexity: O(nlgn)
 '''
-def Partition(A,p,r):
-    x = A[r]
-    i = p - 1
-    for j in range(p,r):
-        if A[j] <= x:
-            i = i + 1
-            A[i], A[j] = A[j], A[i]
-    A[i+1], A[r] = A[r], A[i+1]
-    return i+1
 def Quick_Sort(A,p,r):
+    def Partition(A,p,r):
+        key = A[r]
+        i = p - 1
+        for j in range(p,r):
+            if A[j] < key:
+                i = i + 1
+                A[i], A[j] = A[j], A[i]
+        A[i+1], A[j] = A[j], A[i+1]
+        return i + 1
     if p < r:
         q = Partition(A,p,r)
         Quick_Sort(A,p,q-1)
@@ -177,16 +177,22 @@ def Quick_Sort(A,p,r):
 
 # Random case
 from random import randint
-def Randomized_Partition(A,p,r):
-    i = randint(p,r)
-    A[r], A[i] = A[i], A[r]
-    return Partition(A,p,r)
-
-def Randmized_Quick_Sort(A,p,r):
+def Randomize_Quick_Sort(A,p,r):
+    def Randomize_Partition(A,p,r):
+        i = randint(p,r)
+        A[i], A[r] = A[r], A[i]
+        key = A[r]
+        i = p - 1
+        for j in range(p,r):
+            if A[j] <= key:
+                i = i + 1
+                A[i], A[j] = A[j], A[i]
+        A[i+1], A[r] = A[r], A[i+1]
     if p < r:
-        q = Randomized_Partition(A,p,r)
-        Randmized_Quick_Sort(A,p,q-1)
-        Randmized_Quick_Sort(A,q+1,r)
+        q = Randomize_Partition(A,p,r)
+        Randomize_Quick_Sort(A,p,q-1)
+        Randomize_Partition(A,q+1,r)
+    return A
 
 '''
 Count sort: 
@@ -203,26 +209,28 @@ Count interval number:
 '''
 def Count_Sort(A,max_A):
     A_length = len(A)
-    B = [0]*A_length
-    C = [0]*(max_A+1)
-    for i in range(0,A_length):
-        C[A[i]] = C[A[i]] + 1
-    for i in range(1,len(C)):
-        C[i] = C[i] + C[i-1]
-    for i in range(A_length-1,-1,-1):
-        B[C[A[i]]-1] = A[i]
-        C[A[i]] = C[A[i]] - 1
-    return B
+    A_new = [0] * A_length
+    Count = [0] * (max_A + 1)
+    for i in range(0, A_length):
+        Count[A[i]] = Count[A[i]] + 1
+    for i in range(1, len(Count)):
+        Count[i] = Count[i] + Count[i-1]
+    for i in range(A_length-1, -1, -1):
+        A_new[Count[A[i]] - 1] = A[i]
+        Count[A[i]] = Count[A[i]] - 1
+    return A_new
 
 def Count_Interval_Number(A,max_A,a,b):
     A_length = len(A)
-    B = [0]*A_length
-    C = [0]*(max_A+1)
+    Count = [0] * (max_A + 1)
     for i in range(0,A_length):
-        C[A[i]] = C[A[i]] + 1
-    for i in range(1,len(C)):
-        C[i] = C[i] + C[i-1]
-    return C[b] - C[a-1]
+        Count[A[i]] = Count[A[i]] + 1
+    for i in range(1,len(Count)):
+        Count[i] = Count[i] + Count[i-1]
+    interval_number = Count[b] - Count[a-1]
+    if a == 0:
+        interval_number = Count[b]
+    return interval_number
 
 '''
 Radix Sort: it's a advanced edition of Count-Sort,
@@ -245,32 +253,31 @@ str(num)  num to str
 def Radix_Sort(A,max_A):
     A_length = len(A)
     max_digit = len(str(max_A))
-    A_digit = []
+    A_Digit_Set = []
     def Preprocess():
-        for i in range(0,A_length):
-            number = [i,]
-            for digit in range(max_digit-1,-1,-1):
-                digit_data = (A[i] // 10**digit) % 10
-                number.append(digit_data)
-            A_digit.append(tuple(number))
+        for i in range(0, A_length):
+            num_vector = [i, ]
+            for digit in range(max_digit - 1, -1, -1):
+                data = (A[i] // 10 ** digit) % 10
+                num_vector.append(data)
+            A_Digit_Set.append(tuple(num_vector))
     Preprocess()
-
     digit_i = max_digit
     index = list(range(0,A_length))
-    B = [0]*A_length
+    A_new = [0] * A_length
     while digit_i >= 1:
-        C = [0]*10
-        digit_data = [tuple([x, A_digit[x][digit_i]]) for x in index]
+        Count = [0] * 10
+        digit_data_set = [tuple([x, A_Digit_Set[x][digit_i]]) for x in index]
         for i in range(0,A_length):
-             C[digit_data[i][1]] = C[digit_data[i][1]] + 1
+            Count[digit_data_set[i][1]] = Count[digit_data_set[i][1]] + 1
         for i in range(1,10):
-             C[i] = C[i] + C[i-1]
+            Count[i] = Count[i] + Count[i-1]
         for i in range(A_length-1,-1,-1):
-             B[C[digit_data[i][1]]-1] = digit_data[i]
-             C[digit_data[i][1]] = C[digit_data[i][1]] - 1
-        index = [B[i][0] for i in range(0,A_length)]
+            A_new[Count[digit_data_set[i][1]] -1] = digit_data_set[i]
+            Count[digit_data_set[i][1]] = Count[digit_data_set[i][1]] - 1
+        index = [ A_new[i][0] for i in  range(0,A_length)]
         digit_i = digit_i - 1
-    A_new = [A[x] for x in index]
+    A_new = [A[i] for i in index]
     return A_new
 
 '''
