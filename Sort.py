@@ -239,7 +239,7 @@ Radix Sort: it's a advanced edition of Count-Sort,
             
             Input: >=0, maximum of the array
             Output: increasing order array
-            time-complexity: O(d(n+k))
+            time-complexity: O(d(n+k)), where k = 10
             but the space-complexity is less than corresponding case in Count-Sort.
             
             tips: to locate every data we introduce a tuple about the number and digit, like (number,digit)
@@ -306,5 +306,26 @@ Bucket Sort: we assume the elements of input array 'A' are Uniform distributed.
 #              B_new.extend(B[i])
 #     return B_new
 
+from math import floor, ceil, sqrt
+def Bucket_Sort(A, max_A):
+    A_length = len(A)
+    bucket_number = ceil(sqrt(max_A)) + 1
+    bucket_storage = [0] * bucket_number
+    A_new = []
+    for i in range(0,A_length):
+        bucket_storage[floor(A[i]/bucket_number)] = []
+    for i in range(0,A_length):
+        bucket_storage[floor(A[i]/bucket_number)].append(A[i])
+    for i in range(0,A_length):
+        bucket_storage[floor(A[i]/bucket_number)] = InsertionSort(bucket_storage[floor(A[i]/bucket_number)])
+    for i in range(0,bucket_number):
+        if isinstance(bucket_storage[i],list):
+            A_new.extend(bucket_storage[i])
+    return A_new
 
+
+# test
+A = [0,12,23,1231243,435]
+A_new = Bucket_Sort(A,1231243)
+print(A_new)
 
