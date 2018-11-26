@@ -23,14 +23,14 @@ Insertion sort : O(n^2)
 # # normal
 def InsertionSort(A):
     A_length = len(A)
-    for i in range(1,A_length):
-        key = A[i]
-        j = i - 1
-        while j >= 0 and A[j] > key:
-            A[j+1] = A[j]
-            j = j - 1
-        A[j+1] = key
-    return  A
+    for j in range(1,A_length):
+        key = A[j]
+        i = j - 1
+        while i >= 0 and A[i] > key:
+            A[i+1] = A[i]
+            i = i - 1
+        A[i+1] = key
+    return A
 
 # recursive
 def Insert(A,r):
@@ -40,12 +40,11 @@ def Insert(A,r):
         A[i+1] = A[i]
         i = i - 1
     A[i+1] = key
-
-def InsertionSort_Recursive(A,r):
+def InsertSort_Recursive(A,r):
     if r > 0:
-        InsertionSort_Recursive(A,r-1)
+        InsertSort_Recursive(A,r-1)
         Insert(A,r)
-    return  A
+    return A
 
 '''
 Selection Sort: O(n^2)
@@ -57,7 +56,8 @@ def SelectionSort(A):
         for j in range(i+1,A_length):
             if A[j] < A[smallest]:
                 smallest = j
-        A[i], A[smallest] = A[smallest], A[i]
+        if smallest != i:
+            A[i], A[smallest] = A[smallest], A[i]
     return A
 
 '''
@@ -65,40 +65,40 @@ Merge Sort: O(nlgn)
 '''
 def Merge_Inf(A,p,q,r):
     Inf = float('Inf')
-    L = A[p:q+1]
-    R = A[q+1:r+1]
-    L.append(Inf)
-    R.append(Inf)
+    L_array = A[p:q+1]
+    R_array = A[q+1:r+1]
+    L_array.append(Inf)
+    R_array.append(Inf)
     i, j = 0, 0
     for k in range(p,r+1):
-        if L[i] < R[j]:
-            A[k] = L[i]
+        if L_array[i] < R_array[j]:
+            A[k] = L_array[i]
             i = i + 1
         else:
-            A[k] = R[j]
+            A[k] = R_array[j]
             j = j + 1
 
-def Merge(A,p,q,r):
-    L = A[p:q+1]
-    R = A[q+1:r+1]
-    L_length = len(L)
-    R_length = len(R)
-    i, j = 0, 0
+def Merge(A,p,q,r):  # No cycle style, because the proceeding include separate and merge, and only the separate recursive has cycle style
+    L_array = A[p:q+1]
+    R_array = A[q+1:r+1]
+    L_length = len(L_array)
+    R_length = len(R_array)
     k = p
+    i, j = 0, 0
     while i < L_length and j < R_length:
-        if L[i] < R[j]:
-            A[k] = L[i]
+        if L_array[i] < R_array[j]:
+            A[k] = L_array[i]
             i = i + 1
         else:
-            A[k] = R[j]
+            A[k] = R_array[j]
             j = j + 1
         k = k + 1
     if i == L_length:
-        A[k:r+1] = R[j:R_length]
+        A[k:r+1] = R_array[j:R_length]
     else:
-        A[k:r+1] = L[i:L_length]
+        A[k:r+1] = L_array[i:L_length]
 
-def MergeSort(A,p,r):   # No cycle style, because the proceeding include separate and merge, and only the separate recursive has cycle style
+def MergeSort(A,p,r):
     if p < r:
         q = math.floor((p+r)/2)
         MergeSort(A,p,q)
@@ -106,6 +106,8 @@ def MergeSort(A,p,r):   # No cycle style, because the proceeding include separat
         # Merge_Inf(A,p,q,r)
         Merge(A,p,q,r)
     return A
+
+
 
 '''
 Merge and Insertion combine: O(nk+nlg(n/k)) = n/k*(O(k^2)) + O(nlg(n/k))
@@ -115,13 +117,13 @@ def Insert_K(A,p,r):
         key = A[i]
         j = i - 1
         while j >= p and A[j] > key:
-            A[j+1] = A[j]
+            A[j+1]= A[j]
             j = j - 1
         A[j+1] = key
 
 def Merge_Insert_Sort(A,p,r,k):
-    if (r-p+1) > k:
-        q = math.floor((p+r)/2)
+    if r-p+1 > k:
+        q= math.floor((p+r)/2)
         Merge_Insert_Sort(A,p,q,k)
         Merge_Insert_Sort(A,q+1,r,k)
         Insert_K(A,p,r)
@@ -135,12 +137,13 @@ def Bubble_Sort(A):
     for i in range(0,A_length-1):
         for j in range(A_length-1,i,-1):
             if A[j] < A[j-1]:
-                A[j-1], A[j] = A[j], A[j-1]
+                A[j], A[j-1] = A[j-1], A[j]
     return A
 
 '''
 HeapSort: Base on Max-Heap
           time-complexity: O(nlgn)
+Modules requirements: Heap
 '''
 from DataStructure.Heap import Heap
 def Heap_Sort(A):
@@ -289,23 +292,6 @@ Bucket Sort: we assume the elements of input array 'A' are Uniform distributed.
              Output: increasing order array
              time-complexity: O(n)       
 '''
-# from math import floor, sqrt,ceil
-# def Bucket_Sort(A,max_A):
-#     A_length = len(A)
-#     n = ceil(sqrt(max_A)) + 1
-#     B = [0]*n
-#     B_new = []
-#     for i in range(0,A_length):
-#         B[floor(A[i]/n)] = []
-#     for i in range(0,A_length):
-#         B[floor(A[i]/n)].append(A[i])
-#     for i in range(0,A_length):
-#         B[floor(A[i]/n)] = InsertionSort(B[floor(A[i]/n)])
-#     for i in range(0,n):
-#         if isinstance(B[i],list):
-#              B_new.extend(B[i])
-#     return B_new
-
 from math import floor, ceil, sqrt
 def Bucket_Sort(A, max_A):
     A_length = len(A)
@@ -323,9 +309,4 @@ def Bucket_Sort(A, max_A):
             A_new.extend(bucket_storage[i])
     return A_new
 
-
-# test
-A = [0,12,23,1231243,435]
-A_new = Bucket_Sort(A,1231243)
-print(A_new)
 

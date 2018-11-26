@@ -14,36 +14,37 @@ Divide and conquer method: the max_subarray must be in
                            A_left[low,...,mid] or A_right[mid+1,...,high] or A_cross[i,...j] (where low<=i<=j<=high)
                            time-complexity O(nlgn)
 '''
-def Find_Max_Crossing_Subarray(A,low,mid,high):
+def Find_Max_Crossing_Subarray(A,p,q,r):
     Inf = float('Inf')
-    left_sum, right_sum = -Inf, -Inf
-    left_coordinate, right_coordinate = None, None
+    low, high = None, None
     sum = 0
-    for i in range(mid,low-1,-1):
+    left_sum, right_sum = -Inf, -Inf
+    for i in range(q,p-1,-1):
         sum = sum + A[i]
         if sum > left_sum:
             left_sum = sum
-            left_coordinate = i
+            low = i
     sum = 0
-    for j in range(mid+1,high+1):
+    for j in range(q+1,r+1):
         sum = sum + A[j]
         if sum > right_sum:
             right_sum = sum
-            right_coordinate = j
-    return left_coordinate, right_coordinate, left_sum + right_sum
+            high = j
+    return low, high, left_sum + right_sum
 
 def Find_Max_Subarray(A,low,high):
     if low == high:
         return low, high, A[low]
-    mid = math.floor((low+high)/2)
-    left_low, left_high,left_sum = Find_Max_Subarray(A,low,mid)
-    right_low, right_high, right_sum = Find_Max_Subarray(A,mid+1,high)
-    cross_low, cross_high, cross_sum = Find_Max_Crossing_Subarray(A,low,mid,high)
+    mid = math.floor((low + high) / 2)
+    left_low, left_high, left_sum = Find_Max_Subarray(A, low, mid)
+    right_low, right_high, right_sum = Find_Max_Subarray(A, mid + 1, high)
+    cross_low, cross_high, cross_sum = Find_Max_Crossing_Subarray(A, low, mid, high)
+
     if left_sum >= right_sum and left_sum >= cross_sum:
         return left_low, left_high, left_sum
-    elif right_sum >= left_sum and right_sum >= cross_sum:
+    if right_sum >= left_sum and right_sum >= cross_sum:
         return right_low, right_high, right_sum
-    elif cross_sum >= left_sum and cross_sum >= right_sum:
+    if cross_sum >= left_sum and cross_sum >= right_sum:
         return cross_low, cross_high, cross_sum
 
 '''
@@ -72,8 +73,9 @@ Linear time max subarray: if max_subarray 'A_sub' of A[1,..,j] is known, the max
 def Linear_Time_Max_Subarray(A):
     A_length = len(A)
     low, high = None, None
+    low_temp = 0
+    sum = 0
     max_sum = A[0]
-    low_temp, sum = 0, 0
     for i in range(0,A_length):
         sum = sum + A[i]
         if sum > max_sum:
@@ -84,11 +86,9 @@ def Linear_Time_Max_Subarray(A):
             sum = 0
             low_temp = i + 1
     return low, high, max_sum
-# #test
+
+
+# # #test
 # A = [13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7]
 # l, r, s = Linear_Time_Max_Subarray(A)
 # print(l,r,s)
-#
-
-
-

@@ -22,21 +22,21 @@ Random(a,b):  input: a,b
                          or not replay 1.2
 '''
 from random import randint
-from math import ceil,log2
 from functools import reduce
+from math import ceil, log2
 
-def RandomRange(a,b):
-    def Binary2Int(x,y):
-        return 2*x + y
+def RandomGeneration(a,b):
+    def Binary2Dec(x,y):
+        return 2 * x + y
     digits = ceil(log2(b-a+1))
     while True:
         data = []
         for i in range(0,digits):
             data.append(randint(0,1))
-        delta = reduce(Binary2Int,data)
+        delta = reduce(Binary2Dec,data)
         number = a + delta
         if number >= a and number <= b:
             return number
-#test
-number = RandomRange(100,1110)
-print(number)
+
+# number = RandomGeneration(100,1110)
+# print(number)

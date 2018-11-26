@@ -9,26 +9,14 @@ Modules requirements: import math
 '''
 import math
 
-def LinearSearch(A,v):
+def Linear_Search(A,v):
     A_length = len(A)
     for i in range(0,A_length):
         if A[i] == v:
             return i
     return 'Nil'
 
-# # binary Search, the input must ordered array, time-complexity: O(lgn)
-def Binary_Seach(A,p,r,v):
-    while p <= r:
-        q = math.floor((p+r)/2)
-        if A[q] == v:
-            return q
-        elif A[q] < v:
-            p = q + 1
-        else:
-            r = q - 1
-    return 'Nil'
-
-# binary Search recursive
+# binary Search, the input must ordered array, time-complexity: O(lgn)
 def Binary_Search_Recursive(A,p,r,v):
     if p > r:
         return 'Nil'
@@ -39,6 +27,17 @@ def Binary_Search_Recursive(A,p,r,v):
         return Binary_Search_Recursive(A,q+1,r,v)
     else:
         return Binary_Search_Recursive(A,p,q-1,v)
+
+def Binary_Search(A,p,r,v):
+    while p <= r:
+        q = math.floor((p+r)/2)
+        if A[q] == v:
+            return q
+        elif A[q] < v:
+            p = q + 1
+        else:
+            r = q - 1
+    return 'Nil'
 
 '''
 Select the ith order statistic: 
@@ -61,33 +60,33 @@ Randomized Selection: Based on Quick Sort Partition, but only iteration at one s
                       time-complexity: O(n)
                       worst-case: O(n^2) we always find out the maximum as the key to divide the subarray..
 '''
-from Sort import Randomized_Partition
-def Randomized_Selection(A,p,r,i):
-    if p == r:
-        return A[p]
-    q = Randomized_Partition(A,p,r)
-    k = q-p+1
-    if i == k:
-        return A[q]
-    elif i < k:
-        return Randomized_Selection(A,p,q-1,i)
-    else:
-        return Randomized_Selection(A,q+1,r,i-k)
-
-# iterative edition
-def Iterative_Randomized_Selection(A,p,r,i):
-    while p < r:
-        q = Randomized_Partition(A,p,r)
-        k = q-p+1
-        if i == k:
-            return A[q]
-        elif i < k:
-            r = q - 1
-        else:
-            p = q + 1
-            i = i - k
-    return A[p]
-
+# from Sort import Randomized_Partition
+# def Randomized_Selection(A,p,r,i):
+#     if p == r:
+#         return A[p]
+#     q = Randomized_Partition(A,p,r)
+#     k = q-p+1
+#     if i == k:
+#         return A[q]
+#     elif i < k:
+#         return Randomized_Selection(A,p,q-1,i)
+#     else:
+#         return Randomized_Selection(A,q+1,r,i-k)
+#
+# # iterative edition
+# def Iterative_Randomized_Selection(A,p,r,i):
+#     while p < r:
+#         q = Randomized_Partition(A,p,r)
+#         k = q-p+1
+#         if i == k:
+#             return A[q]
+#         elif i < k:
+#             r = q - 1
+#         else:
+#             p = q + 1
+#             i = i - k
+#     return A[p]
+#
 
 '''
 
