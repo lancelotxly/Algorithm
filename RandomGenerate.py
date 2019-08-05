@@ -25,9 +25,9 @@ from random import randint
 from functools import reduce
 from math import ceil, log2
 
-def RandomGeneration(a,b):
+def RandomGenerator(a,b):
     def Binary2Dec(x,y):
-        return 2 * x + y
+        return  2 * x + y
     digits = ceil(log2(b-a+1))
     while True:
         data = []
@@ -38,5 +38,5 @@ def RandomGeneration(a,b):
         if number >= a and number <= b:
             return number
 
-# number = RandomGeneration(100,1110)
-# print(number)
+number = RandomGenerator(100,1110)
+print(number)

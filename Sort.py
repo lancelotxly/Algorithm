@@ -18,19 +18,24 @@ Module Requirements: import math
 # __author__ = 'xzq'
 import math
 '''
-Insertion sort : O(n^2)
+Insertion sort : best O(n), worst O(n^2)
 '''
-# # normal
-def InsertionSort(A):
-    A_length = len(A)
-    for j in range(1,A_length):
-        key = A[j]
-        i = j - 1
-        while i >= 0 and A[i] > key:
-            A[i+1] = A[i]
-            i = i - 1
-        A[i+1] = key
-    return A
+# normal
+def InsertSort(data,reverse=False):
+    data_len = len(data)
+    for i in range(1,data_len):
+        key = data[i]
+        j = i - 1
+        if reverse:
+            while j >= 0 and data[j] < key:
+                data[j+1] = data[j]
+                j = j - 1
+        else:
+            while j >= 0 and data[j] > key:
+                data[j+1] = data[j]
+                j = j - 1
+        data[j+1] = key
+    return data
 
 # recursive
 def Insert(A,r):
@@ -47,18 +52,23 @@ def InsertSort_Recursive(A,r):
     return A
 
 '''
-Selection Sort: O(n^2)
+Selection Sort: almost O(n^2)
 '''
-def SelectionSort(A):
-    A_length = len(A)
-    for i in range(0,A_length-1):
-        smallest = i
-        for j in range(i+1,A_length):
-            if A[j] < A[smallest]:
-                smallest = j
-        if smallest != i:
-            A[i], A[smallest] = A[smallest], A[i]
-    return A
+def SelectSort(data,reverse=False):
+    data_len = len(data)
+    for i in range(0,data_len-1):
+        mark = i
+        for j in range(i,data_len):
+            if reverse:
+                if data[j] > data[mark]:
+                    mark = j
+            else:
+                if data[j] < data[mark]:
+                    mark = j
+        if mark != i:
+            data[mark],data[i] = data[i],data[mark]
+    return data
+
 
 '''
 Merge Sort: O(nlgn)
@@ -107,37 +117,34 @@ def MergeSort(A,p,r):
         Merge(A,p,q,r)
     return A
 
-
-
 '''
 Merge and Insertion combine: O(nk+nlg(n/k)) = n/k*(O(k^2)) + O(nlg(n/k))
 '''
-def Insert_K(A,p,r):
+def Insert_k(A,p,r):
     for i in range(p+1,r+1):
         key = A[i]
         j = i - 1
         while j >= p and A[j] > key:
-            A[j+1]= A[j]
+            A[j+1] = A[j]
             j = j - 1
         A[j+1] = key
-
 def Merge_Insert_Sort(A,p,r,k):
     if r-p+1 > k:
-        q= math.floor((p+r)/2)
+        q = math.floor((p+r)/2)
         Merge_Insert_Sort(A,p,q,k)
         Merge_Insert_Sort(A,q+1,r,k)
-        Insert_K(A,p,r)
+        Insert_k(A,p,r)
     return A
 
 '''
 Bubble Sort : O(n^2)
 '''
-def Bubble_Sort(A):
-    A_length = len(A)
-    for i in range(0,A_length-1):
-        for j in range(A_length-1,i,-1):
+def BubbleSort(A):
+    A_lenght = len(A)
+    for i in range(0,A_lenght-1):
+        for j in range(A_lenght-1,i,-1):
             if A[j] < A[j-1]:
-                A[j], A[j-1] = A[j-1], A[j]
+                A[j],A[j-1] = A[j-1], A[j]
     return A
 
 '''
@@ -146,17 +153,15 @@ HeapSort: Base on Max-Heap
 Modules requirements: Heap
 '''
 from DataStructure.Heap import Heap
-def Heap_Sort(A):
-    h = Heap(*A)
+def HeapSort(A):
+    h = Heap(A)
     h.Build_Max_Heap()
-    temp = h.heap_size
-    i = h.heap_size - 1
-    while i >= 1:
-        h[0], h[i] = h[i], h[0]
-        h.heap_size = h.heap_size - 1
+    temp = h.heapsize
+    while h.heapsize >= 1:
+        h[0], h[h.heapsize-1] = h[h.heapsize-1], h[0]
+        h.heapsize = h.heapsize - 1
         h.Max_Heapify(0)
-        i = i - 1
-    h.heap_size = temp
+    h.heapsize = temp
     return h
 
 '''
@@ -310,3 +315,7 @@ def Bucket_Sort(A, max_A):
     return A_new
 
 
+if __name__ == "__main__":
+    A = [1,3,4,6,-9,0]
+    A_new = SelectSort(A,reverse=True)
+    print(A_new)

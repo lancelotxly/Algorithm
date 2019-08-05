@@ -54,16 +54,16 @@ Brute force algorithm: select the max subarray from all combination of the array
 def Brute_Force_Algorithm(A):
     A_length = len(A)
     low, high = None, None
-    max_sum = A[0]
+    max = A[0]
     for i in range(0,A_length):
-        sum = 0
+        sum_temp = 0
         for j in range(i,A_length):
-            sum = sum + A[j]
-            if sum > max_sum:
-                max_sum = sum
+            sum_temp += A[j]
+            if sum_temp > max:
+                max = sum_temp
                 low = i
                 high = j
-    return low, high, max_sum
+    return low, high, max
 
 '''
 Linear time max subarray: if max_subarray 'A_sub' of A[1,..,j] is known, the max_subarray of A[1,...,j,j+1] must be 
@@ -72,21 +72,20 @@ Linear time max subarray: if max_subarray 'A_sub' of A[1,..,j] is known, the max
 '''
 def Linear_Time_Max_Subarray(A):
     A_length = len(A)
-    low, high = None, None
+    low, high = None,None
     low_temp = 0
-    sum = 0
-    max_sum = A[0]
+    sum_temp = 0
+    max = A[0]
     for i in range(0,A_length):
-        sum = sum + A[i]
-        if sum > max_sum:
-            max_sum = sum
+        sum_temp += A[i]
+        if sum_temp > max:
+            max = sum_temp
             low = low_temp
             high = i
-        if sum < 0:
-            sum = 0
+        if sum_temp < 0:
+            sum_temp = 0
             low_temp = i + 1
-    return low, high, max_sum
-
+    return low, high, max
 
 # # #test
 # A = [13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7]

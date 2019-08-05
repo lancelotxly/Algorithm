@@ -28,7 +28,6 @@ Heap: For a Heap of n nodes, n = 2^m-1+k, where m-1 layer complete tree, and the
 Modules requirements: from math import floor
 '''
 # from math import floor
-#
 # class Heap():
 #     def __init__(self,*args):
 #         self.heap_size = len(args)
@@ -39,21 +38,21 @@ Modules requirements: from math import floor
 #         self.__dict__[key] = value
 #
 #     def __getitem__(self, item):
-#         return self.__dict__[item]
+#         return  self.__dict__[item]
 #
 #     def __call__(self, *args, **kwargs):
 #         for i in range(0,self.heap_size):
 #             print(self[i], end=' ')
 #         print()
 #
+#     def Parent(self,i):
+#         return floor((i-1)/2)
+#
 #     def Left_Child(self,i):
-#         return 2*i + 1
+#         return i*2 + 1
 #
 #     def Right_Child(self,i):
-#         return 2 * (i + 1)
-#
-#     def Parent(self,i):
-#         return  floor((i-1)/2)
+#         return (i+1)*2
 #
 #     def Max_Heapify(self,i):
 #         left_child = self.Left_Child(i)
@@ -68,6 +67,12 @@ Modules requirements: from math import floor
 #             self[i], self[largest] = self[largest], self[i]
 #             self.Max_Heapify(largest)
 #
+#     def Build_Max_Heap(self):
+#         i = floor(self.heap_size/2)
+#         while i >= 0:
+#             self.Max_Heapify(i)
+#             i = i - 1
+#
 #     def Min_Heapify(self,i):
 #         left_child = self.Left_Child(i)
 #         right_child = self.Right_Child(i)
@@ -81,86 +86,81 @@ Modules requirements: from math import floor
 #             self[i], self[smallest] = self[smallest], self[i]
 #             self.Min_Heapify(smallest)
 #
-#     def Build_Max_Heap(self):
-#         i = floor(self.heap_size/2)
-#         while i >= 0:
-#             self.Max_Heapify(i)
-#             i = i - 1
-#
 #     def Build_Min_Heap(self):
 #         i = floor(self.heap_size/2)
 #         while i >= 0:
 #             self.Min_Heapify(i)
 #             i = i - 1
-
 from math import floor
+
 class Heap():
-    def __init__(self,*args):
-        self.heap_size = len(args)
-        for i in range(0,self.heap_size):
-            self[i] = args[i]
+    def __init__(self,data):
+        self.heapsize = len(data)
+        for i in range(0,self.heapsize):
+            self[i] = data[i]
 
     def __setitem__(self, key, value):
         self.__dict__[key] = value
 
     def __getitem__(self, item):
-        return  self.__dict__[item]
+        return self.__dict__[item]
 
     def __call__(self, *args, **kwargs):
-        for i in range(0,self.heap_size):
+        for i in range(0,self.heapsize):
             print(self[i], end=' ')
         print()
+
+    def LeftChild(self,i):
+        return 2 * i + 1
+
+    def RightChild(self,i):
+        return 2 * (i + 1)
 
     def Parent(self,i):
         return floor((i-1)/2)
 
-    def Left_Child(self,i):
-        return i*2 + 1
-
-    def Right_Child(self,i):
-        return (i+1)*2
-
     def Max_Heapify(self,i):
-        left_child = self.Left_Child(i)
-        right_child = self.Right_Child(i)
-        if left_child < self.heap_size and self[left_child] > self[i]:
+        left_child = self.LeftChild(i)
+        right_child = self.RightChild(i)
+        if left_child < self.heapsize and self[left_child] > self[i]:
             largest = left_child
         else:
             largest = i
-        if right_child < self.heap_size and self[right_child] > self[largest]:
+        if right_child < self.heapsize and self[right_child] > self[largest]:
             largest = right_child
         if largest != i:
-            self[i], self[largest] = self[largest], self[i]
+            self[largest], self[i] = self[i], self[largest]
             self.Max_Heapify(largest)
 
     def Build_Max_Heap(self):
-        i = floor(self.heap_size/2)
+        i = floor(self.heapsize/2)
         while i >= 0:
             self.Max_Heapify(i)
             i = i - 1
 
     def Min_Heapify(self,i):
-        left_child = self.Left_Child(i)
-        right_child = self.Right_Child(i)
-        if left_child < self.heap_size and self[left_child] < self[i]:
+        left_child = self.LeftChild(i)
+        right_child = self.RightChild(i)
+        if left_child < self.heapsize and self[left_child] < self[i]:
             smallest = left_child
         else:
             smallest = i
-        if right_child < self.heap_size and self[right_child] < self[smallest]:
+        if right_child < self.heapsize and self[right_child] < self[smallest]:
             smallest = right_child
         if smallest != i:
             self[i], self[smallest] = self[smallest], self[i]
             self.Min_Heapify(smallest)
 
     def Build_Min_Heap(self):
-        i = floor(self.heap_size/2)
+        i = floor(self.heapsize/2)
         while i >= 0:
             self.Min_Heapify(i)
             i = i - 1
 
+
 # # test
 # A = [15,13,9,5,12,8,7,4,0,6,2,1]
-# h = Heap(*A)
+# h = Heap(A)
 # h.Build_Max_Heap()
 # h()
 # h.Build_Min_Heap()
