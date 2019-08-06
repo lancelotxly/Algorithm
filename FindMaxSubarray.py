@@ -47,6 +47,12 @@ def Find_Max_Subarray(A,low,high):
     if cross_sum >= left_sum and cross_sum >= right_sum:
         return cross_low, cross_high, cross_sum
 
+if __name__ == '__main__':
+    A = [13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7]
+    A = [-3,-2,-3,-4,-5,-6,-7,-9]
+    l,r,s = Find_Max_Subarray(A,0,len(A)-1)
+    print(l,r,s)
+
 '''
 Brute force algorithm: select the max subarray from all combination of the array
                        time-complexity: O(n^2)

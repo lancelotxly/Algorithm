@@ -27,9 +27,9 @@ def InsertSort(data,reverse=False):
         key = data[i]
         j = i - 1
         if reverse:
-            while j >= 0 and data[j] < key:
+            while j >=0 and data[j] < key:
                 data[j+1] = data[j]
-                j = j - 1
+                j = j -1
         else:
             while j >= 0 and data[j] > key:
                 data[j+1] = data[j]
@@ -58,7 +58,7 @@ def SelectSort(data,reverse=False):
     data_len = len(data)
     for i in range(0,data_len-1):
         mark = i
-        for j in range(i,data_len):
+        for j in range(i+1,data_len):
             if reverse:
                 if data[j] > data[mark]:
                     mark = j
@@ -66,9 +66,8 @@ def SelectSort(data,reverse=False):
                 if data[j] < data[mark]:
                     mark = j
         if mark != i:
-            data[mark],data[i] = data[i],data[mark]
+            data[mark], data[i] = data[i],data[mark]
     return data
-
 
 '''
 Merge Sort: O(nlgn)
@@ -81,7 +80,7 @@ def Merge_Inf(A,p,q,r):
     R_array.append(Inf)
     i, j = 0, 0
     for k in range(p,r+1):
-        if L_array[i] < R_array[j]:
+        if L_array[i] > R_array[j]:
             A[k] = L_array[i]
             i = i + 1
         else:
@@ -114,8 +113,12 @@ def MergeSort(A,p,r):
         MergeSort(A,p,q)
         MergeSort(A,q+1,r)
         # Merge_Inf(A,p,q,r)
+
         Merge(A,p,q,r)
     return A
+if __name__ == "__main__":
+    A = [13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7]
+    print(MergeSort(A,0,len(A)-1))
 
 '''
 Merge and Insertion combine: O(nk+nlg(n/k)) = n/k*(O(k^2)) + O(nlg(n/k))
@@ -313,9 +316,3 @@ def Bucket_Sort(A, max_A):
         if isinstance(bucket_storage[i],list):
             A_new.extend(bucket_storage[i])
     return A_new
-
-
-if __name__ == "__main__":
-    A = [1,3,4,6,-9,0]
-    A_new = SelectSort(A,reverse=True)
-    print(A_new)
